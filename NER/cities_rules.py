@@ -57,14 +57,21 @@ def get_rules():
         ))
     )
 
+    CITY_PITER = rule(
+        eq('санкт'),
+        eq('-'),
+        eq('петербург')
+    )
 
     COMPLICATED_CITY = or_(
             rule(
                 CITY.optional(),
                 GEO
-        )
+        ),
+            CITY_PITER
     )
 
     FINAL_CITY = or_(COMPLICATED_CITY)
     return FINAL_CITY
+
 

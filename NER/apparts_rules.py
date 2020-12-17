@@ -40,7 +40,9 @@ def get_rules():
     HOUSE=morph_pipeline([
         'дом',
         'корпус',
-        'квартира'
+        'квартира',
+        'строение',
+        'ст'
     ])
 
     CITY_EXEP=rule(morph_pipeline([

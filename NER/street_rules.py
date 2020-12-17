@@ -21,9 +21,12 @@ def get_rules():
 
     NAME = rule ( and_(
             gram('Name'),
-            not_(PREP)
+            not_(PREP),
+            not_(GEO)
         )
     )
+    
+    
     NOUN_NOT_CONJ = rule ( and_(
         NOUN,
         not_(CONJ)
@@ -68,7 +71,10 @@ def get_rules():
         'марьинский парк',
         'московская',
         'береговая',
-        'антонова овсиенко'
+        'антонова овсиенко',
+        'школьная',
+        'юнтоловский',
+        'гагарина'
 
     ])
 
@@ -143,3 +149,4 @@ def get_rules():
     FINAL_STREET = or_(COMPLICATED_STREETS, SIMPLE_STREETS)
 
     return FINAL_STREET
+

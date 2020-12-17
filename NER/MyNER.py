@@ -19,6 +19,8 @@ from yargy.tokenizer import MorphTokenizer
 
 list_of_streets_suffixs = ['улица','тракт','бульвар','проспект',
     'микрорайон','проезд','шоссе']
+corpus_list =['корпус', 'к']
+build_list = ['строение','квартира','ст']
 
 class PersonsResult():
     first = None 
@@ -51,15 +53,16 @@ class MyNER:
                                     dom = dom + matches[0].tokens[i+1].value + matches[0].tokens[i+2].value
                             if i+1 < len (matches[0].tokens) and len(matches[0].tokens[i+1].value) == 1 and matches[0].tokens[i+1].value.isdigit() == False and matches[0].tokens[i+1].value !='/':
                                 if i+2 < len (matches[0].tokens) and matches[0].tokens[i+2].value != 'улица':
-                                    dom = dom + matches[0].tokens[i+1].value
+                                    if matches[0].tokens[i+1].value not in corpus_list:
+                                        dom = dom + matches[0].tokens[i+1].value
                                 elif i+2 >= len (matches[0].tokens):
                                     dom = dom + matches[0].tokens[i+1].value
                             if i+1 < len (matches[0].tokens) and matches[0].tokens[i+1].value.isdigit():
                                 room = "" + matches[0].tokens[i+1].value
                             first = False 
-                    if matches[0].tokens[i].value == 'корпус':
+                    if matches[0].tokens[i].value in corpus_list:
                         corpus = "" + matches[0].tokens[i+1].value
-                    if matches[0].tokens[i].value == 'квартира':
+                    if matches[0].tokens[i].value in build_list:
                         room = "" + matches[0].tokens[i+1].value   
                     i += 1
         return (dom, corpus, room)   
@@ -97,7 +100,9 @@ class MyNER:
                     else: 
                         if(city_name != ""):
                             city_name = city_name + " "
-                        city_name = city_name + token.value 
+                        city_name = city_name + token.value
+        if city_name == 'санкт - петербург':
+            city_name = ''.join(city_name.split())
         return (city_name, city_type)
     
     def nerStreet(self, string):
